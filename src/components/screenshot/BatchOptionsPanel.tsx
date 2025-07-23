@@ -43,7 +43,6 @@ interface BatchOptionsPanelProps {
 export function BatchOptionsPanel({
   form,
   isExpanded = true,
-  onToggleExpanded,
 }: BatchOptionsPanelProps) {
   const formatValue = form.watch("format");
   const widthValue = form.watch("width");
