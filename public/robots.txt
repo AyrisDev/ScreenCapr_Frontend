@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Main pages
+Allow: /
+Allow: /batch
+Allow: /api-docs
+
+# Sitemap
+Sitemap: https://screenshot-tool.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
