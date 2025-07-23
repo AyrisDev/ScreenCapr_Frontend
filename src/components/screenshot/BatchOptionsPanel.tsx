@@ -1,35 +1,58 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Monitor, Smartphone, Tablet, Settings2 } from "lucide-react"
-import { UseFormReturn } from "react-hook-form"
+import * as React from "react";
+import { Monitor, Smartphone, Tablet, Settings2 } from "lucide-react";
+import { UseFormReturn } from "react-hook-form";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
-import { VIEWPORT_PRESETS } from "@/lib/constants"
-import type { BatchScreenshotFormData } from "@/lib/validations"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { VIEWPORT_PRESETS } from "@/lib/constants";
+import type { BatchScreenshotFormData } from "@/lib/validations";
 
 interface BatchOptionsPanelProps {
-  form: UseFormReturn<BatchScreenshotFormData>
-  isExpanded?: boolean
-  onToggleExpanded?: () => void
+  form: UseFormReturn<BatchScreenshotFormData>;
+  isExpanded?: boolean;
+  onToggleExpanded?: () => void;
 }
 
-export function BatchOptionsPanel({ form, isExpanded = false, onToggleExpanded }: BatchOptionsPanelProps) {
-  const formatValue = form.watch("format")
-  const widthValue = form.watch("width")
-  const heightValue = form.watch("height")
+export function BatchOptionsPanel({
+  form,
+  isExpanded = false,
+  onToggleExpanded,
+}: BatchOptionsPanelProps) {
+  const formatValue = form.watch("format");
+  const widthValue = form.watch("width");
+  const heightValue = form.watch("height");
 
-  const handlePresetSelect = (preset: typeof VIEWPORT_PRESETS[0]) => {
-    form.setValue("width", preset.width)
-    form.setValue("height", preset.height)
-  }
+  const handlePresetSelect = (preset: (typeof VIEWPORT_PRESETS)[0]) => {
+    form.setValue("width", preset.width);
+    form.setValue("height", preset.height);
+  };
 
   return (
     <Card>
@@ -45,17 +68,13 @@ export function BatchOptionsPanel({ form, isExpanded = false, onToggleExpanded }
             </CardDescription>
           </div>
           {onToggleExpanded && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onToggleExpanded}
-            >
+            <Button variant="ghost" size="sm" onClick={onToggleExpanded}>
               {isExpanded ? "Hide" : "Show"} Options
             </Button>
           )}
         </div>
       </CardHeader>
-      
+
       {isExpanded && (
         <CardContent className="space-y-6">
           {/* Viewport Presets */}
@@ -67,8 +86,8 @@ export function BatchOptionsPanel({ form, isExpanded = false, onToggleExpanded }
                   key={preset.name}
                   variant={
                     widthValue === preset.width && heightValue === preset.height
-                      ? "default"
-                      : "outline"
+                      ? "outline"
+                      : "default"
                   }
                   size="sm"
                   className="h-auto flex-col gap-1 p-3"
@@ -76,9 +95,15 @@ export function BatchOptionsPanel({ form, isExpanded = false, onToggleExpanded }
                   type="button"
                 >
                   <div className="flex items-center gap-1">
-                    {preset.name.includes('Mobile') && <Smartphone className="h-3 w-3" />}
-                    {preset.name.includes('Tablet') && <Tablet className="h-3 w-3" />}
-                    {preset.name.includes('Desktop') && <Monitor className="h-3 w-3" />}
+                    {preset.name.includes("Mobile") && (
+                      <Smartphone className="h-3 w-3" />
+                    )}
+                    {preset.name.includes("Tablet") && (
+                      <Tablet className="h-3 w-3" />
+                    )}
+                    {preset.name.includes("Desktop") && (
+                      <Monitor className="h-3 w-3" />
+                    )}
                     <span className="text-xs font-medium">{preset.name}</span>
                   </div>
                   <span className="text-xs text-muted-foreground">
@@ -102,7 +127,9 @@ export function BatchOptionsPanel({ form, isExpanded = false, onToggleExpanded }
                       type="number"
                       placeholder="1920"
                       {...field}
-                      onChange={(e) => field.onChange(parseInt(e.target.value) || 1920)}
+                      onChange={(e) =>
+                        field.onChange(parseInt(e.target.value) || 1920)
+                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -120,7 +147,9 @@ export function BatchOptionsPanel({ form, isExpanded = false, onToggleExpanded }
                       type="number"
                       placeholder="1080"
                       {...field}
-                      onChange={(e) => field.onChange(parseInt(e.target.value) || 1080)}
+                      onChange={(e) =>
+                        field.onChange(parseInt(e.target.value) || 1080)
+                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -137,7 +166,10 @@ export function BatchOptionsPanel({ form, isExpanded = false, onToggleExpanded }
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Format</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select format" />
@@ -152,7 +184,7 @@ export function BatchOptionsPanel({ form, isExpanded = false, onToggleExpanded }
                 </FormItem>
               )}
             />
-            
+
             {formatValue === "jpeg" && (
               <FormField
                 control={form.control}
@@ -185,7 +217,9 @@ export function BatchOptionsPanel({ form, isExpanded = false, onToggleExpanded }
             render={({ field }) => (
               <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                 <div className="space-y-0.5">
-                  <FormLabel className="text-base">Full Page Screenshot</FormLabel>
+                  <FormLabel className="text-base">
+                    Full Page Screenshot
+                  </FormLabel>
                   <FormDescription>
                     Capture the entire page instead of just the viewport
                   </FormDescription>
@@ -212,7 +246,9 @@ export function BatchOptionsPanel({ form, isExpanded = false, onToggleExpanded }
                     type="number"
                     placeholder="30"
                     value={field.value / 1000}
-                    onChange={(e) => field.onChange((parseInt(e.target.value) || 30) * 1000)}
+                    onChange={(e) =>
+                      field.onChange((parseInt(e.target.value) || 30) * 1000)
+                    }
                   />
                 </FormControl>
                 <FormDescription>
@@ -225,5 +261,5 @@ export function BatchOptionsPanel({ form, isExpanded = false, onToggleExpanded }
         </CardContent>
       )}
     </Card>
-  )
+  );
 }

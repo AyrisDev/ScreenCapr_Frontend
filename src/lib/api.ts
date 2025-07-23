@@ -25,7 +25,8 @@ apiClient.interceptors.response.use(
 );
 
 export const downloadScreenshot = async (url: string, options?: ScreenshotOptions): Promise<Blob> => {
-  const response = await apiClient.post('/api/screenshot', 
+  const endpoint = process.env.NODE_ENV === 'production' ? '/api/proxy/screenshot' : '/api/screenshot';
+  const response = await apiClient.post(endpoint, 
     { url, options },
     { 
       responseType: 'blob',

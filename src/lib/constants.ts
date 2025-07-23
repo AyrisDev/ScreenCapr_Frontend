@@ -1,6 +1,9 @@
 import { ViewportPreset } from '@/types/screenshot';
 
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+// Use proxy routes in production to avoid CORS issues
+export const API_BASE_URL = process.env.NODE_ENV === 'production' 
+  ? '' // Use relative URLs for proxy routes
+  : process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
 export const VIEWPORT_PRESETS: ViewportPreset[] = [
   {
@@ -51,7 +54,7 @@ export const DEFAULT_SCREENSHOT_OPTIONS = {
 };
 
 export const APP_CONFIG = {
-  name: process.env.NEXT_PUBLIC_APP_NAME || 'Screenshot Tool',
+  name: process.env.NEXT_PUBLIC_APP_NAME || 'Screenly',
   version: process.env.NEXT_PUBLIC_APP_VERSION || '1.0.0',
-  description: 'Professional website screenshot tool with batch processing'
+  description: 'Professional website screenshot tool with batch processing capabilities'
 };

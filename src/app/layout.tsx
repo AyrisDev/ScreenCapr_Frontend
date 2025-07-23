@@ -11,11 +11,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: APP_CONFIG.name,
+    default: `${APP_CONFIG.name} - Professional Website Screenshot Tool`,
     template: `%s | ${APP_CONFIG.name}`,
   },
-  description: APP_CONFIG.description,
+  description: `${APP_CONFIG.description}. Take high-quality screenshots of any website with custom viewports, batch processing, and instant downloads. Free, fast, and privacy-focused.`,
   keywords: [
+    "screenly",
     "screenshot tool",
     "website screenshot",
     "batch screenshot",
@@ -25,14 +26,24 @@ export const metadata: Metadata = {
     "website capture",
     "screenshot api",
     "screenshot service",
-    "free screenshot tool"
+    "free screenshot tool",
+    "ayris.tech",
+    "web developer tools",
+    "screenshot online",
+    "website previews",
+    "responsive screenshots",
+    "full page screenshot",
+    "mobile screenshot",
+    "desktop screenshot",
   ],
-  authors: [{ name: "Screenshot Tool Team" }],
-  creator: "Screenshot Tool",
-  publisher: "Screenshot Tool",
+  authors: [{ name: "Ayris.tech", url: "https://ayris.tech" }],
+  creator: "Ayris.tech",
+  publisher: "Ayris.tech",
   applicationName: APP_CONFIG.name,
   generator: "Next.js",
   viewport: "width=device-width, initial-scale=1",
+  category: "Web Development Tools",
+  classification: "Utility",
   robots: {
     index: true,
     follow: true,
@@ -50,28 +61,38 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: process.env.NEXT_PUBLIC_BASE_URL || "https://screenshot-tool.com",
-    title: APP_CONFIG.name,
-    description: APP_CONFIG.description,
+    url: process.env.NEXT_PUBLIC_BASE_URL || "https://screenly.ayris.tech",
+    title: `${APP_CONFIG.name} - Professional Website Screenshot Tool`,
+    description: `${APP_CONFIG.description}. Take high-quality screenshots of any website with custom viewports and batch processing.`,
     siteName: APP_CONFIG.name,
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Screenshot Tool - Professional Website Screenshot Service",
+        alt: `${APP_CONFIG.name} - Professional Website Screenshot Service by Ayris.tech`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: APP_CONFIG.name,
-    description: APP_CONFIG.description,
+    title: `${APP_CONFIG.name} - Professional Website Screenshot Tool`,
+    description: `${APP_CONFIG.description}. Take high-quality screenshots with custom viewports and batch processing.`,
     images: ["/og-image.png"],
-    creator: "@screenshottool",
+    creator: "@ayristech",
+    site: "@ayristech",
   },
   alternates: {
-    canonical: process.env.NEXT_PUBLIC_BASE_URL || "https://screenshot-tool.com",
+    canonical:
+      process.env.NEXT_PUBLIC_BASE_URL || "https://screenly.ayris.tech",
+  },
+  other: {
+    "theme-color": "#3b82f6",
+    "color-scheme": "light dark",
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": APP_CONFIG.name,
   },
 };
 
@@ -89,45 +110,71 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebApplication",
-              "name": APP_CONFIG.name,
-              "description": APP_CONFIG.description,
-              "url": process.env.NEXT_PUBLIC_BASE_URL || "https://screenshot-tool.com",
-              "applicationCategory": "UtilityApplication",
-              "operatingSystem": "Web Browser",
-              "offers": {
+              name: APP_CONFIG.name,
+              alternateName: "Screenly Screenshot Tool",
+              description: `${APP_CONFIG.description}. Take high-quality screenshots of any website with custom viewports, batch processing, and instant downloads.`,
+              url:
+                process.env.NEXT_PUBLIC_BASE_URL ||
+                "https://screenly.ayris.tech",
+              applicationCategory: "UtilityApplication",
+              operatingSystem: "Web Browser",
+              browserRequirements: "Requires JavaScript. Requires HTML5.",
+              softwareVersion: APP_CONFIG.version,
+              offers: {
                 "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
+                price: "0",
+                priceCurrency: "USD",
+                availability: "https://schema.org/InStock",
               },
-              "creator": {
+              creator: {
                 "@type": "Organization",
-                "name": "Screenshot Tool Team"
+                name: "Ayris.tech",
+                url: "https://ayris.tech",
+                sameAs: ["https://ayris.tech"],
               },
-              "featureList": [
+              publisher: {
+                "@type": "Organization",
+                name: "Ayris.tech",
+                url: "https://ayris.tech",
+              },
+              featureList: [
                 "Website Screenshot Capture",
                 "Batch Screenshot Processing",
-                "Multiple Format Support",
+                "Multiple Format Support (PNG, JPEG)",
                 "Custom Viewport Sizes",
+                "Mobile and Desktop Presets",
+                "Full Page Screenshots",
                 "High Quality Downloads",
-                "Privacy Focused"
-              ]
-            })
+                "Privacy Focused - No Storage",
+                "Real-time Processing",
+                "Free to Use",
+              ],
+              screenshot: "/og-image.png",
+              installUrl:
+                process.env.NEXT_PUBLIC_BASE_URL ||
+                "https://screenly.ayris.tech",
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "5.0",
+                ratingCount: "1",
+                bestRating: "5",
+                worstRating: "1",
+              },
+            }),
           }}
         />
       </head>
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
           <QueryProvider>
             <div className="min-h-screen flex flex-col">
               <Header />
-              <main className="flex-1">
-                {children}
-              </main>
+              <main className="flex-1">{children}</main>
               <Footer />
             </div>
           </QueryProvider>

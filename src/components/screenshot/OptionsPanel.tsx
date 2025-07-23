@@ -1,35 +1,58 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Monitor, Smartphone, Tablet, Settings2 } from "lucide-react"
-import { UseFormReturn } from "react-hook-form"
+import * as React from "react";
+import { Monitor, Smartphone, Tablet, Settings2 } from "lucide-react";
+import { UseFormReturn } from "react-hook-form";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
-import { VIEWPORT_PRESETS } from "@/lib/constants"
-import type { ScreenshotFormData } from "@/lib/validations"
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { VIEWPORT_PRESETS } from "@/lib/constants";
+import type { ScreenshotFormData } from "@/lib/validations";
 
 interface OptionsPanelProps {
-  form: UseFormReturn<ScreenshotFormData>
-  isExpanded?: boolean
-  onToggleExpanded?: () => void
+  form: UseFormReturn<ScreenshotFormData>;
+  isExpanded?: boolean;
+  onToggleExpanded?: () => void;
 }
 
-export function OptionsPanel({ form, isExpanded = false, onToggleExpanded }: OptionsPanelProps) {
-  const formatValue = form.watch("format")
-  const widthValue = form.watch("width")
-  const heightValue = form.watch("height")
+export function OptionsPanel({
+  form,
+  isExpanded = false,
+  onToggleExpanded,
+}: OptionsPanelProps) {
+  const formatValue = form.watch("format");
+  const widthValue = form.watch("width");
+  const heightValue = form.watch("height");
 
-  const handlePresetSelect = (preset: typeof VIEWPORT_PRESETS[0]) => {
-    form.setValue("width", preset.width)
-    form.setValue("height", preset.height)
-  }
+  const handlePresetSelect = (preset: (typeof VIEWPORT_PRESETS)[0]) => {
+    form.setValue("width", preset.width);
+    form.setValue("height", preset.height);
+  };
 
   return (
     <Card>
@@ -56,20 +79,26 @@ export function OptionsPanel({ form, isExpanded = false, onToggleExpanded }: Opt
           )}
         </div>
       </CardHeader>
-      <CardContent className={`space-y-6 ${!isExpanded ? "hidden lg:block" : ""}`}>
+      <CardContent
+        className={`space-y-6 ${!isExpanded ? "hidden lg:block" : ""}`}
+      >
         {/* Viewport Presets */}
         <div className="space-y-3">
           <Label className="text-sm font-medium">Viewport Presets</Label>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
             {VIEWPORT_PRESETS.map((preset) => {
-              const isActive = widthValue === preset.width && heightValue === preset.height
-              const Icon = preset.name.includes("Mobile") ? Smartphone : 
-                          preset.name.includes("Tablet") ? Tablet : Monitor
-              
+              const isActive =
+                widthValue === preset.width && heightValue === preset.height;
+              const Icon = preset.name.includes("Mobile")
+                ? Smartphone
+                : preset.name.includes("Tablet")
+                ? Tablet
+                : Monitor;
+
               return (
                 <Button
                   key={preset.name}
-                  variant={isActive ? "default" : "outline"}
+                  variant={isActive ? "outline" : "blanke"}
                   size="sm"
                   onClick={() => handlePresetSelect(preset)}
                   className="flex flex-col items-center gap-1 h-auto py-3"
@@ -80,7 +109,7 @@ export function OptionsPanel({ form, isExpanded = false, onToggleExpanded }: Opt
                     {preset.width}×{preset.height}
                   </span>
                 </Button>
-              )
+              );
             })}
           </div>
         </div>
@@ -133,7 +162,10 @@ export function OptionsPanel({ form, isExpanded = false, onToggleExpanded }: Opt
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Image Format</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select format" />
@@ -148,7 +180,7 @@ export function OptionsPanel({ form, isExpanded = false, onToggleExpanded }: Opt
               </FormItem>
             )}
           />
-          
+
           {formatValue === "jpeg" && (
             <FormField
               control={form.control}
@@ -182,7 +214,9 @@ export function OptionsPanel({ form, isExpanded = false, onToggleExpanded }: Opt
           render={({ field }) => (
             <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
-                <FormLabel className="text-base">Full Page Screenshot</FormLabel>
+                <FormLabel className="text-base">
+                  Full Page Screenshot
+                </FormLabel>
                 <FormDescription>
                   Capture the entire page, not just the viewport
                 </FormDescription>
@@ -204,15 +238,7 @@ export function OptionsPanel({ form, isExpanded = false, onToggleExpanded }: Opt
           render={({ field }) => (
             <FormItem>
               <FormLabel>Timeout (seconds): {field.value / 1000}s</FormLabel>
-              <FormControl>
-                <Slider
-                  min={5000}
-                  max={120000}
-                  step={5000}
-                  value={[field.value]}
-                  onValueChange={(value) => field.onChange(value[0])}
-                />
-              </FormControl>
+
               <FormDescription>
                 Maximum time to wait for page load
               </FormDescription>
@@ -222,5 +248,5 @@ export function OptionsPanel({ form, isExpanded = false, onToggleExpanded }: Opt
         />
       </CardContent>
     </Card>
-  )
+  );
 }
