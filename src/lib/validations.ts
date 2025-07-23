@@ -12,12 +12,12 @@ export const urlSchema = z.string()
   }, { message: 'URL must use HTTP or HTTPS protocol' });
 
 export const screenshotOptionsSchema = z.object({
-  width: z.number().min(200).max(4000),
-  height: z.number().min(200).max(4000),
+  width: z.number().min(100).max(3840),
+  height: z.number().min(100).max(2160),
   fullPage: z.boolean(),
   format: z.enum(['png', 'jpeg']),
   quality: z.number().min(1).max(100),
-  timeout: z.number().min(5000).max(120000)
+  timeout: z.number().min(5000).max(60000)
 });
 
 export const baseFormSchema = screenshotOptionsSchema;

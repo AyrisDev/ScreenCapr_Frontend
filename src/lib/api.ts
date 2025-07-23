@@ -37,7 +37,8 @@ export const downloadScreenshot = async (url: string, options?: ScreenshotOption
 };
 
 export const downloadBatchScreenshots = async (urls: string[], options?: ScreenshotOptions): Promise<Blob> => {
-  const response = await apiClient.post('/api/batch-screenshots',
+  const endpoint = process.env.NODE_ENV === 'production' ? '/api/proxy/batch-screenshots' : '/api/batch-screenshots';
+  const response = await apiClient.post(endpoint,
     { urls, options },
     { 
       responseType: 'blob',

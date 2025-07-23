@@ -4,13 +4,23 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
+    // Calculate timeout based on number of URLs (allow 60s per URL + 60s buffer)
+    const { urls = [] } = body;
+    const timeoutMs = (urls.length * 60000) + 60000; // 60s per URL + 60s buffer
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+    
     const response = await fetch('https://screencapr_api.ayris.tech/api/batch-screenshots', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
+      signal: controller.signal,
     });
+    
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -26,10 +36,16 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Proxy error:', error);
-    return NextResponse.json(
-      { error: 'Failed to proxy request' },
-      { status: 500 }
-    );
+    console.error('Batch screenshots proxy error:', error);
+    
+    // More detailed error information
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorDetails = {
+      error: 'Failed to proxy batch screenshots request',
+      details: errorMessage,
+      timestamp: new Date().toISOString(),
+    };
+    
+    return NextResponse.json(errorDetails, { status: 500 });
   }
 }
