@@ -1,6 +1,6 @@
 import { ScreenshotForm } from "@/components/screenshot/ScreenshotForm"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Camera, Zap, Shield, Download } from "lucide-react"
+import { Zap, Shield, Download } from "lucide-react"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {

@@ -3,7 +3,7 @@
 import * as React from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Images, Download, Loader2, AlertCircle, CheckCircle2, Package } from "lucide-react"
+import { Images, Loader2, AlertCircle, CheckCircle2, Package } from "lucide-react"
 
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
@@ -14,7 +14,7 @@ import { useBatchScreenshot } from "@/hooks/useBatchScreenshot"
 import { DEFAULT_SCREENSHOT_OPTIONS } from "@/lib/constants"
 import { batchScreenshotFormSchema, type BatchScreenshotFormData } from "@/lib/validations"
 import { BatchUrlInput } from "./BatchUrlInput"
-import { OptionsPanel } from "./OptionsPanel"
+import { BatchOptionsPanel } from "./BatchOptionsPanel"
 
 export function BatchScreenshotForm() {
   const [isOptionsExpanded, setIsOptionsExpanded] = React.useState(false)
@@ -29,7 +29,7 @@ export function BatchScreenshotForm() {
   })
 
   const batchScreenshot = useBatchScreenshot({
-    onSuccess: (blob) => {
+    onSuccess: () => {
       const urlCount = form.getValues('urls').length
       setSuccessMessage(`Successfully created ZIP archive with ${urlCount} screenshot${urlCount === 1 ? '' : 's'}!`)
       form.reset({ urls: [], ...DEFAULT_SCREENSHOT_OPTIONS })
@@ -160,7 +160,7 @@ export function BatchScreenshotForm() {
 
               {/* Options Panel - Inside the same form */}
               <div className="lg:block">
-                <OptionsPanel
+                <BatchOptionsPanel
                   form={form}
                   isExpanded={isOptionsExpanded}
                   onToggleExpanded={() => setIsOptionsExpanded(!isOptionsExpanded)}

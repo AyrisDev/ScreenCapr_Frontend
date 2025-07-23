@@ -1,7 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { Code, Server, Zap, Shield, Book } from "lucide-react"
+import { Code, Zap, Shield } from "lucide-react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -203,7 +202,7 @@ export default function ApiDocsPage() {
                   <td className="p-2 font-mono">format</td>
                   <td className="p-2">string</td>
                   <td className="p-2">png</td>
-                  <td className="p-2">Image format: 'png' or 'jpeg'</td>
+                  <td className="p-2">Image format: &apos;png&apos; or &apos;jpeg&apos;</td>
                 </tr>
                 <tr className="border-b">
                   <td className="p-2 font-mono">quality</td>

@@ -27,7 +27,8 @@ export const useScreenshot = (options?: UseScreenshotOptions) => {
 
 export const useScreenshotDownload = () => {
   return useMutation({
-    mutationFn: downloadScreenshot,
+    mutationFn: ({ url, options }: { url: string; options?: ScreenshotOptions }) => 
+      downloadScreenshot(url, options),
     onSuccess: (blob, { url, options }) => {
       const filename = generateFilename(url, options?.format || 'png');
       downloadFile(blob, filename);

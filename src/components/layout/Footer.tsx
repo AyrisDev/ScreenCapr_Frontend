@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Github, Twitter, Heart } from "lucide-react"
+import { Heart } from "lucide-react"
 import { APP_CONFIG } from "@/lib/constants"
 
 export function Footer() {

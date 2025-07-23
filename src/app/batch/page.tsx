@@ -1,6 +1,6 @@
 import { BatchScreenshotForm } from "@/components/screenshot/BatchScreenshotForm"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Images, Zap, Package, Shield } from "lucide-react"
+import { Zap, Package, Shield } from "lucide-react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Plus, X, Link, Upload } from "lucide-react"
-import { UseFieldArrayReturn, UseFormReturn } from "react-hook-form"
+import { UseFormReturn } from "react-hook-form"
 
 import { Button } from "@/components/ui/button"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
@@ -138,7 +138,7 @@ export function BatchUrlInput({ form }: BatchUrlInputProps) {
         <FormField
           control={form.control}
           name="urls"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>URLs (one per line, max 10)</FormLabel>
               <FormControl>

@@ -12,13 +12,15 @@ export const urlSchema = z.string()
   }, { message: 'URL must use HTTP or HTTPS protocol' });
 
 export const screenshotOptionsSchema = z.object({
-  width: z.number().min(200).max(4000).default(1920),
-  height: z.number().min(200).max(4000).default(1080),
-  fullPage: z.boolean().default(false),
-  format: z.enum(['png', 'jpeg']).default('png'),
-  quality: z.number().min(1).max(100).default(90),
-  timeout: z.number().min(5000).max(120000).default(30000)
+  width: z.number().min(200).max(4000),
+  height: z.number().min(200).max(4000),
+  fullPage: z.boolean(),
+  format: z.enum(['png', 'jpeg']),
+  quality: z.number().min(1).max(100),
+  timeout: z.number().min(5000).max(120000)
 });
+
+export const baseFormSchema = screenshotOptionsSchema;
 
 export const screenshotFormSchema = z.object({
   url: urlSchema,

@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { API_BASE_URL } from './constants';
-import type { ScreenshotRequest, BatchScreenshotRequest, HealthResponse, ApiError, ScreenshotOptions } from '@/types/api';
+import type { HealthResponse, ApiError, ScreenshotOptions } from '@/types/api';
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
@@ -14,8 +14,9 @@ const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
+    const responseData = error.response?.data as { message?: string } | undefined;
     const apiError: ApiError = {
-      message: error.response?.data?.message || error.message || 'An unexpected error occurred',
+      message: responseData?.message || error.message || 'An unexpected error occurred',
       status: error.response?.status || 500,
       timestamp: new Date().toISOString(),
     };
