@@ -42,7 +42,7 @@ interface BatchOptionsPanelProps {
 
 export function BatchOptionsPanel({
   form,
-  isExpanded = false,
+  isExpanded = true,
   onToggleExpanded,
 }: BatchOptionsPanelProps) {
   const formatValue = form.watch("format");
@@ -67,11 +67,6 @@ export function BatchOptionsPanel({
               Customize your screenshot settings
             </CardDescription>
           </div>
-          {onToggleExpanded && (
-            <Button variant="ghost" size="sm" onClick={onToggleExpanded}>
-              {isExpanded ? "Hide" : "Show"} Options
-            </Button>
-          )}
         </div>
       </CardHeader>
 

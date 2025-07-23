@@ -1,24 +1,41 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { Images, Loader2, AlertCircle, CheckCircle2, Package } from "lucide-react"
+import * as React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import {
+  Images,
+  Loader2,
+  AlertCircle,
+  CheckCircle2,
+  Package,
+} from "lucide-react";
 
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form } from "@/components/ui/form"
-import { Progress } from "@/components/ui/progress"
-import { useBatchScreenshot } from "@/hooks/useBatchScreenshot"
-import { DEFAULT_SCREENSHOT_OPTIONS } from "@/lib/constants"
-import { batchScreenshotFormSchema, type BatchScreenshotFormData } from "@/lib/validations"
-import { BatchUrlInput } from "./BatchUrlInput"
-import { BatchOptionsPanel } from "./BatchOptionsPanel"
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import { Progress } from "@/components/ui/progress";
+import { useBatchScreenshot } from "@/hooks/useBatchScreenshot";
+import { DEFAULT_SCREENSHOT_OPTIONS } from "@/lib/constants";
+import {
+  batchScreenshotFormSchema,
+  type BatchScreenshotFormData,
+} from "@/lib/validations";
+import { BatchUrlInput } from "./BatchUrlInput";
+import { BatchOptionsPanel } from "./BatchOptionsPanel";
 
 export function BatchScreenshotForm() {
-  const [isOptionsExpanded, setIsOptionsExpanded] = React.useState(false)
-  const [successMessage, setSuccessMessage] = React.useState<string | null>(null)
+  const [isOptionsExpanded, setIsOptionsExpanded] = React.useState(true);
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(
+    null
+  );
 
   const form = useForm<BatchScreenshotFormData>({
     resolver: zodResolver(batchScreenshotFormSchema),
@@ -26,28 +43,32 @@ export function BatchScreenshotForm() {
       urls: [],
       ...DEFAULT_SCREENSHOT_OPTIONS,
     },
-  })
+  });
 
   const batchScreenshot = useBatchScreenshot({
     onSuccess: () => {
-      const urlCount = form.getValues('urls').length
-      setSuccessMessage(`Successfully created ZIP archive with ${urlCount} screenshot${urlCount === 1 ? '' : 's'}!`)
-      form.reset({ urls: [], ...DEFAULT_SCREENSHOT_OPTIONS })
-      setTimeout(() => setSuccessMessage(null), 5000)
+      const urlCount = form.getValues("urls").length;
+      setSuccessMessage(
+        `Successfully created ZIP archive with ${urlCount} screenshot${
+          urlCount === 1 ? "" : "s"
+        }!`
+      );
+      form.reset({ urls: [], ...DEFAULT_SCREENSHOT_OPTIONS });
+      setTimeout(() => setSuccessMessage(null), 5000);
     },
     onError: (error) => {
-      console.error('Batch screenshot error:', error)
+      console.error("Batch screenshot error:", error);
     },
-  })
+  });
 
   const onSubmit = (data: BatchScreenshotFormData) => {
-    setSuccessMessage(null)
-    const { urls, ...options } = data
-    batchScreenshot.mutate({ urls, options })
-  }
+    setSuccessMessage(null);
+    const { urls, ...options } = data;
+    batchScreenshot.mutate({ urls, options });
+  };
 
-  const urls = form.watch("urls") || []
-  const hasValidUrls = urls.length > 0 && !form.formState.errors.urls
+  const urls = form.watch("urls") || [];
+  const hasValidUrls = urls.length > 0 && !form.formState.errors.urls;
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-6">
@@ -78,7 +99,8 @@ export function BatchScreenshotForm() {
                   {batchScreenshot.isPending ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Processing {urls.length} URL{urls.length === 1 ? '' : 's'}...
+                      Processing {urls.length} URL{urls.length === 1 ? "" : "s"}
+                      ...
                     </>
                   ) : (
                     <>
@@ -87,15 +109,6 @@ export function BatchScreenshotForm() {
                     </>
                   )}
                 </Button>
-                
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsOptionsExpanded(!isOptionsExpanded)}
-                  className="lg:hidden"
-                >
-                  Options
-                </Button>
               </div>
 
               {/* Progress Bar */}
@@ -103,7 +116,9 @@ export function BatchScreenshotForm() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-sm">
                     <span>Processing screenshots...</span>
-                    <span>{urls.length} URL{urls.length === 1 ? '' : 's'}</span>
+                    <span>
+                      {urls.length} URL{urls.length === 1 ? "" : "s"}
+                    </span>
                   </div>
                   <Progress value={undefined} className="w-full" />
                   <div className="text-xs text-muted-foreground text-center">
@@ -125,7 +140,8 @@ export function BatchScreenshotForm() {
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    {batchScreenshot.error.message || "Failed to process batch screenshots. Please try again."}
+                    {batchScreenshot.error.message ||
+                      "Failed to process batch screenshots. Please try again."}
                   </AlertDescription>
                 </Alert>
               )}
@@ -138,18 +154,22 @@ export function BatchScreenshotForm() {
                       <div className="flex items-center justify-between text-sm">
                         <span className="font-medium">Ready to process:</span>
                         <span className="text-muted-foreground">
-                          {urls.length} URL{urls.length === 1 ? '' : 's'}
+                          {urls.length} URL{urls.length === 1 ? "" : "s"}
                         </span>
                       </div>
                       <div className="max-h-32 overflow-y-auto space-y-1">
                         {urls.slice(0, 5).map((url, index) => (
-                          <div key={index} className="text-xs text-muted-foreground truncate">
+                          <div
+                            key={index}
+                            className="text-xs text-muted-foreground truncate"
+                          >
                             {index + 1}. {url}
                           </div>
                         ))}
                         {urls.length > 5 && (
                           <div className="text-xs text-muted-foreground">
-                            ... and {urls.length - 5} more URL{urls.length - 5 === 1 ? '' : 's'}
+                            ... and {urls.length - 5} more URL
+                            {urls.length - 5 === 1 ? "" : "s"}
                           </div>
                         )}
                       </div>
@@ -163,7 +183,9 @@ export function BatchScreenshotForm() {
                 <BatchOptionsPanel
                   form={form}
                   isExpanded={isOptionsExpanded}
-                  onToggleExpanded={() => setIsOptionsExpanded(!isOptionsExpanded)}
+                  onToggleExpanded={() =>
+                    setIsOptionsExpanded(!isOptionsExpanded)
+                  }
                 />
               </div>
             </form>
@@ -171,5 +193,5 @@ export function BatchScreenshotForm() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
