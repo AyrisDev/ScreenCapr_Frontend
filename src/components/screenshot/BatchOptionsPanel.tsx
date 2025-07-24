@@ -227,31 +227,6 @@ export function BatchOptionsPanel({
               </FormItem>
             )}
           />
-
-          {/* Timeout */}
-          <FormField
-            control={form.control}
-            name="timeout"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Timeout (seconds)</FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    placeholder="30"
-                    value={field.value / 1000}
-                    onChange={(e) =>
-                      field.onChange((parseInt(e.target.value) || 30) * 1000)
-                    }
-                  />
-                </FormControl>
-                <FormDescription>
-                  Maximum time to wait for page to load
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </CardContent>
       )}
     </Card>

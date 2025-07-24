@@ -1,24 +1,49 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { Camera, Download, Loader2, Link, AlertCircle, CheckCircle2 } from "lucide-react"
+import * as React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import {
+  Camera,
+  Download,
+  Loader2,
+  Link,
+  AlertCircle,
+  CheckCircle2,
+} from "lucide-react";
 
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Progress } from "@/components/ui/progress"
-import { useScreenshot } from "@/hooks/useScreenshot"
-import { DEFAULT_SCREENSHOT_OPTIONS } from "@/lib/constants"
-import { screenshotFormSchema, type ScreenshotFormData } from "@/lib/validations"
-import { OptionsPanel } from "./OptionsPanel"
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
+import { useScreenshot } from "@/hooks/useScreenshot";
+import { DEFAULT_SCREENSHOT_OPTIONS } from "@/lib/constants";
+import {
+  screenshotFormSchema,
+  type ScreenshotFormData,
+} from "@/lib/validations";
+import { OptionsPanel } from "./OptionsPanel";
 
 export function ScreenshotForm() {
-  const [isOptionsExpanded, setIsOptionsExpanded] = React.useState(false)
-  const [successMessage, setSuccessMessage] = React.useState<string | null>(null)
+  const [isOptionsExpanded, setIsOptionsExpanded] = React.useState(false);
+  const [successMessage, setSuccessMessage] = React.useState<string | null>(
+    null
+  );
 
   const form = useForm<ScreenshotFormData>({
     resolver: zodResolver(screenshotFormSchema),
@@ -26,27 +51,32 @@ export function ScreenshotForm() {
       url: "",
       ...DEFAULT_SCREENSHOT_OPTIONS,
     },
-  })
+  });
 
   const screenshot = useScreenshot({
     onSuccess: (blob, variables) => {
-      setSuccessMessage(`Screenshot of ${variables.url} downloaded successfully!`)
-      form.reset({ ...form.getValues(), url: "" })
-      setTimeout(() => setSuccessMessage(null), 5000)
+      setSuccessMessage(
+        `Screenshot of ${variables.url} downloaded successfully!`
+      );
+      form.reset({ ...form.getValues(), url: "" });
+      setTimeout(() => setSuccessMessage(null), 5000);
     },
     onError: (error) => {
-      console.error('Screenshot error:', error?.message || error || 'Unknown error')
+      console.error(
+        "Screenshot error:",
+        error?.message || error || "Unknown error"
+      );
     },
-  })
+  });
 
   const onSubmit = (data: ScreenshotFormData) => {
-    setSuccessMessage(null)
-    const { url, ...options } = data
-    screenshot.mutate({ url, options })
-  }
+    setSuccessMessage(null);
+    const { url, ...options } = data;
+    screenshot.mutate({ url, options });
+  };
 
-  const urlValue = form.watch("url")
-  const isValidUrl = urlValue && !form.formState.errors.url
+  const urlValue = form.watch("url");
+  const isValidUrl = urlValue && !form.formState.errors.url;
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-6">
@@ -105,15 +135,6 @@ export function ScreenshotForm() {
                     </>
                   )}
                 </Button>
-                
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => setIsOptionsExpanded(!isOptionsExpanded)}
-                  className="lg:hidden"
-                >
-                  Options
-                </Button>
               </div>
 
               {/* Progress Bar */}
@@ -140,7 +161,8 @@ export function ScreenshotForm() {
                 <Alert variant="destructive">
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription>
-                    {screenshot.error.message || "Failed to take screenshot. Please try again."}
+                    {screenshot.error.message ||
+                      "Failed to take screenshot. Please try again."}
                   </AlertDescription>
                 </Alert>
               )}
@@ -150,7 +172,9 @@ export function ScreenshotForm() {
                 <OptionsPanel
                   form={form}
                   isExpanded={isOptionsExpanded}
-                  onToggleExpanded={() => setIsOptionsExpanded(!isOptionsExpanded)}
+                  onToggleExpanded={() =>
+                    setIsOptionsExpanded(!isOptionsExpanded)
+                  }
                 />
               </div>
             </form>
@@ -158,5 +182,5 @@ export function ScreenshotForm() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

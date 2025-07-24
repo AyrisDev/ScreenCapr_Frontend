@@ -98,7 +98,8 @@ export function OptionsPanel({
               return (
                 <Button
                   key={preset.name}
-                  variant={isActive ? "outline" : "blanke"}
+                  type="button"
+                  variant={isActive ? "default" : "outline"}
                   size="sm"
                   onClick={() => handlePresetSelect(preset)}
                   className="flex flex-col items-center gap-1 h-auto py-3"
@@ -227,22 +228,6 @@ export function OptionsPanel({
                   onCheckedChange={field.onChange}
                 />
               </FormControl>
-            </FormItem>
-          )}
-        />
-
-        {/* Timeout */}
-        <FormField
-          control={form.control}
-          name="timeout"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Timeout (seconds): {field.value / 1000}s</FormLabel>
-
-              <FormDescription>
-                Maximum time to wait for page load
-              </FormDescription>
-              <FormMessage />
             </FormItem>
           )}
         />
