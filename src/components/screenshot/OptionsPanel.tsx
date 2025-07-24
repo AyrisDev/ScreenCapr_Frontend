@@ -99,7 +99,7 @@ export function OptionsPanel({
                 <Button
                   key={preset.name}
                   type="button"
-                  variant={isActive ? "default" : "outline"}
+                  variant={isActive ? "outline" : "default"}
                   size="sm"
                   onClick={() => handlePresetSelect(preset)}
                   className="flex flex-col items-center gap-1 h-auto py-3"
