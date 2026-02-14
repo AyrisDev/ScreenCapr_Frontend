@@ -3,26 +3,29 @@
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
+interface PlausibleWindow extends Window {
+    plausible?: (...args: unknown[]) => void;
+}
+
 const RouteTracker = () => {
     const pathname = usePathname();
     const initialized = useRef(false);
 
     useEffect(() => {
         if (!initialized.current) {
-            // @ts-ignore
-            window.plausible = window.plausible || function(...args: any[]) {
-                // @ts-ignore
-                (window.plausible.q = window.plausible.q || []).push(args);
+            const win = window as unknown as PlausibleWindow;
+            win.plausible = win.plausible || function(...args: unknown[]) {
+                // @ts-expect-error - plausible.q might not exist yet
+                (win.plausible!.q = win.plausible!.q || []).push(args);
             };
             initialized.current = true;
         }
     }, []);
 
     useEffect(() => {
-        // @ts-ignore
-        if (initialized.current && window.plausible) {
-            // @ts-ignore
-            window.plausible('pageview', {
+        const win = window as unknown as PlausibleWindow;
+        if (initialized.current && win.plausible) {
+            win.plausible('pageview', {
                 url: window.location.href
             });
         }
