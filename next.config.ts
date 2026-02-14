@@ -1,7 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async rewrites() {
+    return [
+      {
+        source: "/api/event",
+        destination: "https://analytics.ayris.tech/api/event",
+      },
+    ];
+  },
 };
 
 export default nextConfig;

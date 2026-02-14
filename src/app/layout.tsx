@@ -6,6 +6,9 @@ import { QueryProvider } from "@/components/query-provider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { APP_CONFIG } from "@/lib/constants";
+import Script from "next/script";
+import PlausibleProvider from "next-plausible";
+import RouteTracker from "@/components/RouteTracker";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -165,20 +168,33 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
+        <PlausibleProvider 
+          domain="screenly.ayris.tech" 
+          customDomain="https://analytics.ayris.tech"
+          selfHosted
         >
-          <QueryProvider>
-            <div className="min-h-screen flex flex-col">
-              <Header />
-              <main className="flex-1">{children}</main>
-              <Footer />
-            </div>
-          </QueryProvider>
-        </ThemeProvider>
+          <RouteTracker />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <QueryProvider>
+              <div className="min-h-screen flex flex-col">
+                <Header />
+                <main className="flex-1">{children}</main>
+                <Footer />
+              </div>
+            </QueryProvider>
+          </ThemeProvider>
+          <Script 
+            defer 
+            data-domain="screenly.ayris.tech" 
+            src="/pl.js" 
+            strategy="afterInteractive"
+          />
+        </PlausibleProvider>
       </body>
     </html>
   );
