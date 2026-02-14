@@ -9,16 +9,20 @@ const RouteTracker = () => {
 
     useEffect(() => {
         if (!initialized.current) {
-            (window as any).plausible = (window as any).plausible || function() {
-                ((window as any).plausible.q = (window as any).plausible.q || []).push(arguments);
+            // @ts-ignore
+            window.plausible = window.plausible || function(...args: any[]) {
+                // @ts-ignore
+                (window.plausible.q = window.plausible.q || []).push(args);
             };
             initialized.current = true;
         }
     }, []);
 
     useEffect(() => {
-        if (initialized.current && (window as any).plausible) {
-            (window as any).plausible('pageview', {
+        // @ts-ignore
+        if (initialized.current && window.plausible) {
+            // @ts-ignore
+            window.plausible('pageview', {
                 url: window.location.href
             });
         }
